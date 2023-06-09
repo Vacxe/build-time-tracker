@@ -1,0 +1,44 @@
+name: CI Pipeline
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: 11
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Build and test
+        run: ./gradlew clean build -x ktlintCheck -x ktlintFormat
+        continue-on-error: true
+
+      - name: Publish unit test results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: "build/test-results/**/*.xml"
+
+      - name: Lint
+        run: ./gradlew ktlintCheck ktlintFormat
+
+      - name: Generate coverage report
+        run: ./gradlew jacocoTestReport
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          directory: build/reports/jacoco/test
+          dry_run: false
+          verbose: false
