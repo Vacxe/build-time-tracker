@@ -2,14 +2,6 @@
 
 Gradle plugin that prints the time taken by the tasks in a build.
 
-Console output example:
-```
-Build finished: 0.643s
-
-:first | 0.229s | 35.61%
-:second | 0.412s | 64.07%
-```
-
 You can customize the plugin as follows:
 
 ## Reporters
