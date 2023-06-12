@@ -2,6 +2,9 @@
 
 Gradle plugin that prints the time taken by the tasks in a build.
 
+See [Gradle Plugin Portal](https://plugins.gradle.org/plugin/io.github.vacxe.build-time-tracker) for usage
+instructions
+
 You can customize the plugin as follows:
 
 ## Reporters
