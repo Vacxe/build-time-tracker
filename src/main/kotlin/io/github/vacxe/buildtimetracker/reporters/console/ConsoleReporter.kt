@@ -2,23 +2,20 @@ package io.github.vacxe.buildtimetracker.reporters.console
 
 import io.github.vacxe.buildtimetracker.reporters.Report
 import io.github.vacxe.buildtimetracker.reporters.Reporter
-import org.gradle.internal.impldep.org.apache.commons.lang.time.DurationFormatUtils
 import java.time.Duration
 import kotlin.text.StringBuilder
 
-class ConsoleReporter(private val minTaskDuration: Duration) : Reporter {
+class ConsoleReporter(private val configuration: ConsoleConfiguration) : Reporter {
     override fun report(report: Report) {
-        println("Build finished: ${ if(report.buildDuration.toMillis() > 0) DurationFormatUtils.formatDuration(report.buildDuration.toMillis(), "H'H' mm'm' ss's'") else "0s"}")
+        println("Build finished: ${report.buildDuration.toSecondsWithMillis()}s")
         println()
 
         val filteredEventReports = report.eventReports
-            .filter { it.duration > minTaskDuration }
-        val maxTaskNameLength = filteredEventReports.maxOf { it.taskPath.length }
+            .filter { it.duration > configuration.minDuration }
         filteredEventReports.map {
             StringBuilder(it.taskPath)
-                .append(" ".repeat(maxTaskNameLength - it.taskPath.length))
-                .append("  | ${it.duration.toSecondsPart()}.${it.duration.toMillisPart()}s")
-                .append(" (${it.duration.percentFrom(report.buildDuration)}%)")
+                .append(" | ${it.duration.toSecondsWithMillis()}s")
+                .append(" | ${it.duration.percentOf(report.buildDuration)}%")
         }.forEach(::println)
     }
 
@@ -26,5 +23,6 @@ class ConsoleReporter(private val minTaskDuration: Duration) : Reporter {
         // Nothing to close
     }
 
-    private fun Duration.percentFrom(baseDuration: Duration) = String.format("%.2f", this.seconds.toDouble() / baseDuration.seconds.toDouble() * 100)
+    private fun Duration.percentOf(baseDuration: Duration) = String.format("%.2f", this.toMillis().toDouble() / baseDuration.toMillis().toDouble() * 100)
+    private fun Duration.toSecondsWithMillis() = "$seconds.${String.format("%03d", this.toMillisPart())}"
 }

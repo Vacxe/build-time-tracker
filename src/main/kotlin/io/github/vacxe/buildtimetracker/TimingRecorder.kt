@@ -4,6 +4,8 @@ import io.github.vacxe.buildtimetracker.reporters.csv.CSVReporter
 import io.github.vacxe.buildtimetracker.reporters.console.ConsoleReporter
 import io.github.vacxe.buildtimetracker.reporters.EventReport
 import io.github.vacxe.buildtimetracker.reporters.Report
+import io.github.vacxe.buildtimetracker.reporters.console.ConsoleConfiguration
+import io.github.vacxe.buildtimetracker.reporters.csv.CSVConfiguration
 
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
@@ -20,20 +22,11 @@ import java.util.concurrent.atomic.AtomicReference
 @Suppress("UnstableApiUsage")
 abstract class TimingRecorder : BuildService<TimingRecorder.Params>, OperationCompletionListener, AutoCloseable {
     interface Params : BuildServiceParameters {
-        // Global configuration
-        val minTaskDuration: Property<Duration>
-        val includeUserName: Property<Boolean>
-
-        // Configuration for console output
-        val consoleOutput: Property<Boolean>
-
-        // Configuration for CSV output
-        val csvOutput: Property<Boolean>
-        val csvReportsDir: DirectoryProperty
+        val consoleConfiguration: Property<ConsoleConfiguration>
+        val csvConfiguration: Property<CSVConfiguration>
     }
 
     private val eventReports: MutableCollection<EventReport> = ConcurrentLinkedQueue()
-    private val buildStart = AtomicReference(Instant.now())
 
     override fun onFinish(event: FinishEvent) {
         if (event is TaskFinishEvent) {
@@ -49,17 +42,14 @@ abstract class TimingRecorder : BuildService<TimingRecorder.Params>, OperationCo
 
     override fun close() {
         val report = Report(
-            buildStart.get(),
-            Instant.now(),
-            eventReports,
-            System.getProperty("user.name"),
-            System.getProperty("os.name")
+            eventReports
         )
 
-        if (parameters.consoleOutput.get()) {
-            ConsoleReporter(parameters.minTaskDuration.get()).report(report)
+        if (parameters.consoleConfiguration.isPresent) {
+            ConsoleReporter(parameters.consoleConfiguration.get()).report(report)
         }
-        if (parameters.csvOutput.get())
-            CSVReporter(parameters.minTaskDuration.get()).report(report)
+        if (parameters.csvConfiguration.isPresent) {
+            CSVReporter(parameters.csvConfiguration.get()).report(report)
+        }
     }
 }

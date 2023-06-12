@@ -20,13 +20,8 @@ class BuildTimeTrackerPlugin @Inject constructor(private val registry: BuildEven
             val buildListener =
                 project.gradle.sharedServices.registerIfAbsent(clazz.simpleName, clazz) { spec ->
                     with(spec.parameters) {
-                        minTaskDuration.set(ext.minTaskDuration)
-                        includeUserName.set(ext.includeUserName)
-
-                        consoleOutput.set(ext.consoleOutput)
-
-                        csvOutput.set(ext.csvOutput)
-                        csvReportsDir.set(ext.csvReportsDir)
+                        consoleConfiguration.set(ext.consoleConfiguration)
+                        csvConfiguration.set(ext.csvConfiguration)
                     }
                 }
             registry.onTaskCompletion(buildListener)
