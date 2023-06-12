@@ -74,4 +74,4 @@ buildTimeTracker {
 - Gradle 6.1
 
 ## License
-Copyright 2022 Abhijit Sarkar - Released under [Apache License v2.0](LICENSE).
+Copyright 2022 - Released under [Apache License v2.0](LICENSE).
