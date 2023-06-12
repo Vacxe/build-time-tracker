@@ -14,7 +14,7 @@ import kotlin.io.path.absolutePathString
 import kotlin.io.path.inputStream
 import kotlin.io.path.readText
 
-open class BuildTimeTrackerGradleTest {
+abstract class BuildTimeTrackerGradleTest {
 
     @TempDir
     lateinit var testProjectDir: Path
