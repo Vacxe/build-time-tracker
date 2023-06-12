@@ -3,30 +3,14 @@ package io.github.vacxe.buildtimetracker
 import io.github.vacxe.buildtimetracker.reporters.console.ConsoleConfiguration
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.api.internal.provider.ValueSupplier.Value.SUCCESS
-import org.gradle.internal.os.OperatingSystem
-import org.gradle.testkit.runner.BuildResult
-import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.io.TempDir
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
 import java.util.*
-import kotlin.io.path.inputStream
-import java.nio.file.StandardOpenOption.APPEND
-import java.nio.file.StandardOpenOption.CREATE
-import java.nio.file.StandardOpenOption.TRUNCATE_EXISTING
-import java.nio.file.StandardOpenOption.WRITE
-import java.time.Duration
-import kotlin.io.path.readText
 
 @Suppress("INACCESSIBLE_TYPE")
 class ConsoleReporterTest : BuildTimeTrackerGradleTest() {
 
     private val firstTask = "first"
     private val secondTask = "second"
-
-
 
     @Test
     fun testConsoleOutputSingleTasksKotlin() {

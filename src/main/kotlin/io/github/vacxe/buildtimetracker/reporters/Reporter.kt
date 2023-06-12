@@ -1,7 +1,5 @@
 package io.github.vacxe.buildtimetracker.reporters
 
-import java.io.Closeable
-
-interface Reporter : Closeable {
+interface Reporter {
     fun report(report: Report)
 }

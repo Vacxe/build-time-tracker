@@ -10,6 +10,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 import java.time.Duration
 import java.util.*
+import kotlin.io.path.absolutePathString
 import kotlin.io.path.inputStream
 import kotlin.io.path.readText
 
@@ -49,7 +50,8 @@ open class BuildTimeTrackerGradleTest {
     fun newBuildFile(rootDir: Path, name: String): Path {
         Files.createDirectories(rootDir)
         val buildFile = rootDir.resolve(name)
-        Files.newBufferedWriter(buildFile,
+        Files.newBufferedWriter(
+            buildFile,
             StandardOpenOption.CREATE,
             StandardOpenOption.WRITE,
             StandardOpenOption.TRUNCATE_EXISTING
@@ -99,5 +101,10 @@ open class BuildTimeTrackerGradleTest {
         printHorzLine(this, true)
         println(this.readText())
         printHorzLine(this, false)
+    }
+
+    fun createTempFile(fileName: String) = when (OperatingSystem.current()) {
+        OperatingSystem.WINDOWS -> "${testProjectDir.absolutePathString()}\\$fileName".let { it.replace("\\", "\\\\") }
+        else -> "${testProjectDir.absolutePathString()}/$fileName"
     }
 }

@@ -7,8 +7,9 @@ import org.gradle.api.provider.Property
 
 open class BuildTimeTrackerExtension(project: Project) {
 
-    val consoleConfiguration: Property<ConsoleConfiguration> = project.objects.property(ConsoleConfiguration::class.java)
-        .convention(null)
+    val consoleConfiguration: Property<ConsoleConfiguration> =
+        project.objects.property(ConsoleConfiguration::class.java)
+            .convention(null)
 
     val csvConfiguration: Property<CSVConfiguration> = project.objects.property(CSVConfiguration::class.java)
         .convention(null)
