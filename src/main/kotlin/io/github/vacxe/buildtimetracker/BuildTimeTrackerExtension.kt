@@ -2,6 +2,7 @@ package io.github.vacxe.buildtimetracker
 
 import io.github.vacxe.buildtimetracker.reporters.console.ConsoleConfiguration
 import io.github.vacxe.buildtimetracker.reporters.csv.CSVConfiguration
+import io.github.vacxe.buildtimetracker.reporters.influxdb.InfluxDBConfiguration
 import io.github.vacxe.buildtimetracker.reporters.markdown.MarkdownConfiguration
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
@@ -18,5 +19,9 @@ open class BuildTimeTrackerExtension(project: Project) {
 
     val markdownConfiguration: Property<MarkdownConfiguration> =
         project.objects.property(MarkdownConfiguration::class.java)
+            .convention(null)
+
+    val influxDBConfiguration: Property<InfluxDBConfiguration> =
+        project.objects.property(InfluxDBConfiguration::class.java)
             .convention(null)
 }

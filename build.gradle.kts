@@ -47,6 +47,7 @@ val junitVersion: String by project
 val assertjVersion: String by project
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation("com.influxdb:influxdb-client-kotlin:6.9.0")
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-params")

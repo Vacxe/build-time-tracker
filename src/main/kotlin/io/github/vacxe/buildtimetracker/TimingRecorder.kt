@@ -6,6 +6,8 @@ import io.github.vacxe.buildtimetracker.reporters.console.ConsoleConfiguration
 import io.github.vacxe.buildtimetracker.reporters.console.ConsoleReporter
 import io.github.vacxe.buildtimetracker.reporters.csv.CSVConfiguration
 import io.github.vacxe.buildtimetracker.reporters.csv.CSVReporter
+import io.github.vacxe.buildtimetracker.reporters.influxdb.InfluxDBConfiguration
+import io.github.vacxe.buildtimetracker.reporters.influxdb.InfluxDBReporter
 import io.github.vacxe.buildtimetracker.reporters.markdown.MarkdownConfiguration
 import io.github.vacxe.buildtimetracker.reporters.markdown.MarkdownReporter
 import org.gradle.api.provider.Property
@@ -23,6 +25,7 @@ abstract class TimingRecorder : BuildService<TimingRecorder.Params>, OperationCo
         val consoleConfiguration: Property<ConsoleConfiguration>
         val csvConfiguration: Property<CSVConfiguration>
         val markdownConfiguration: Property<MarkdownConfiguration>
+        val influxDBConfiguration: Property<InfluxDBConfiguration>
     }
 
     private val eventReports: MutableCollection<EventReport> = ConcurrentLinkedQueue()
@@ -52,6 +55,9 @@ abstract class TimingRecorder : BuildService<TimingRecorder.Params>, OperationCo
         }
         if (parameters.markdownConfiguration.isPresent) {
             MarkdownReporter(parameters.markdownConfiguration.get()).report(report)
+        }
+        if (parameters.influxDBConfiguration.isPresent) {
+            InfluxDBReporter(parameters.influxDBConfiguration.get()).report(report)
         }
     }
 }

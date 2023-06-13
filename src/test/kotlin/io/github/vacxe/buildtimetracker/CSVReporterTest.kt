@@ -15,7 +15,7 @@ class CSVReporterTest : BuildTimeTrackerGradleTest() {
     private val secondTask = "second"
 
     @Test
-    fun testConsoleOutputSingleTasksKotlin() {
+    fun testSingleTasksKotlin() {
         val csvReportFile = this.createTempFile("report.csv")
         val buildFile = newBuildFile(testProjectDir, "build.gradle.kts")
         buildFile.append(
@@ -45,7 +45,7 @@ class CSVReporterTest : BuildTimeTrackerGradleTest() {
     }
 
     @Test
-    fun testConsoleOutputMultiTasksKotlin() {
+    fun testMultiTasksKotlin() {
         val csvReportFile = this.createTempFile("report.csv")
         val buildFile = newBuildFile(testProjectDir, "build.gradle.kts")
         buildFile.append(
@@ -84,7 +84,7 @@ class CSVReporterTest : BuildTimeTrackerGradleTest() {
     }
 
     @Test
-    fun testConsoleOutputMultiTasksIncludedUserAndOSKotlin() {
+    fun testMultiTasksIncludedUserAndOSKotlin() {
         val csvReportFile = this.createTempFile("report.csv")
         val buildFile = newBuildFile(testProjectDir, "build.gradle.kts")
         buildFile.append(
@@ -126,7 +126,7 @@ class CSVReporterTest : BuildTimeTrackerGradleTest() {
     }
 
     @Test
-    fun testConsoleOutputEmptyAfterFiltrationKotlin() {
+    fun testEmptyAfterFiltrationKotlin() {
         val csvReportFile = this.createTempFile("report.csv")
         val buildFile = newBuildFile(testProjectDir, "build.gradle.kts")
         buildFile.append(

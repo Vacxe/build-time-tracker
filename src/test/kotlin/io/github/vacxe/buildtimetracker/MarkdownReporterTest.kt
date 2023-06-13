@@ -14,7 +14,7 @@ class MarkdownReporterTest : BuildTimeTrackerGradleTest() {
     private val secondTask = "second"
 
     @Test
-    fun testConsoleOutputSingleTasksKotlin() {
+    fun testSingleTasksKotlin() {
         val markdownReportFile = this.createTempFile("report.md")
         val buildFile = newBuildFile(testProjectDir, "build.gradle.kts")
         buildFile.append(
@@ -47,7 +47,7 @@ class MarkdownReporterTest : BuildTimeTrackerGradleTest() {
     }
 
     @Test
-    fun testConsoleOutputMultiTasksKotlin() {
+    fun testMultiTasksKotlin() {
         val markdownReportFile = this.createTempFile("report.md")
         val buildFile = newBuildFile(testProjectDir, "build.gradle.kts")
         buildFile.append(
@@ -89,7 +89,7 @@ class MarkdownReporterTest : BuildTimeTrackerGradleTest() {
         assertThat(lines[4].contains(":second"))
     }
     @Test
-    fun testConsoleOutputEmptyAfterFiltrationKotlin() {
+    fun testEmptyAfterFiltrationKotlin() {
         val markdownReportFile = this.createTempFile("report.md")
         val buildFile = newBuildFile(testProjectDir, "build.gradle.kts")
         buildFile.append(

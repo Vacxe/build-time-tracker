@@ -77,6 +77,38 @@ buildTimeTracker {
 |:second|0.413s|64.73%|
 ```
 
+### `InfluxDBConfiguration`
+
+data class InfluxDBConfiguration(
+val url: String,
+val token: String,
+val org: String,
+val bucket: String,
+val minDuration: Duration = Duration.ZERO
+) : Serializable
+
+Parameters:
+* `url: String` - `required` URL for InfluxDB (*Flux*) instance. Example `http://localhost:8086/`
+* `token: String` - `required` 
+* `org: String` - `required` 
+* `bucket: String` - `required`
+* `minDuration: Duration` - `optional` minimum task duration for report, default `0` *(all tasks included)*
+
+`build.gradle.kts`:
+```
+buildTimeTracker {
+    influxDBConfiguration.set(InfluxDBConfiguration("http://192.168.1.100:8086/", "myToken", "myBucker", "myOrg"))              
+}
+```
+Output:
+
+> Grafana + InfluxDB 
+> 
+![influx_grafana.png](docs%2Fimages%2Finflux_grafana.png)
+
+The output data can be grouped by `buildUUID` to calculate a total sum for the individual builds
+
+
 ## Minimum Requirements
 - Java 11
 - Gradle 6.1

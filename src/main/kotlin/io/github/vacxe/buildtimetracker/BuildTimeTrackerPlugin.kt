@@ -23,6 +23,7 @@ class BuildTimeTrackerPlugin @Inject constructor(private val registry: BuildEven
                         consoleConfiguration.set(ext.consoleConfiguration)
                         csvConfiguration.set(ext.csvConfiguration)
                         markdownConfiguration.set(ext.markdownConfiguration)
+                        influxDBConfiguration.set(ext.influxDBConfiguration)
                     }
                 }
             registry.onTaskCompletion(buildListener)
