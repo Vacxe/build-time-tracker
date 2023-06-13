@@ -36,7 +36,7 @@ class InfluxDBReporterTest : BuildTimeTrackerGradleTest() {
                 }
                     
                 ${Constants.PLUGIN_EXTENSION_NAME} {
-                    influxDBConfiguration.set(InfluxDBConfiguration("http://192.168.1.100:8086/", "i7WZRml93dclhYfCeYK-u4ZkGFEZ8YNe6gvK2_KD_LV6sOEKXLspT4599cUltlunqRZEGDeJSl2K-pkgOQ1--Q==", "glasshouse", "BuildTimeTracker"))
+                    influxDBConfiguration.set(InfluxDBConfiguration("http://localhost:8086/", "apikey", "org", "bucket"))
                 }
                 """
         )

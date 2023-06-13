@@ -3,9 +3,11 @@ package io.github.vacxe.buildtimetracker.reporters.influxdb
 import com.influxdb.client.domain.WritePrecision
 import com.influxdb.client.kotlin.InfluxDBClientKotlinFactory
 import com.influxdb.client.write.Point
+import com.influxdb.exceptions.InfluxException
 import io.github.vacxe.buildtimetracker.reporters.Report
 import io.github.vacxe.buildtimetracker.reporters.Reporter
 import kotlinx.coroutines.runBlocking
+import java.net.SocketTimeoutException
 import java.util.UUID
 
 class InfluxDBReporter(private val configuration: InfluxDBConfiguration): Reporter {
@@ -34,7 +36,11 @@ class InfluxDBReporter(private val configuration: InfluxDBConfiguration): Report
                 .time(it.startTime.toEpochMilli(), WritePrecision.MS)
         }
 
-        runBlocking { writeApi.writePoints(points) }
+        try {
+            runBlocking { writeApi.writePoints(points) }
+        } catch (e: InfluxException) {
+            println("Unable to connect to Influx Instance ${configuration.url}. Reason: ${e.message}")
+        }
         client.close()
     }
 }
