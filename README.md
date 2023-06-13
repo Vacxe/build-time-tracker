@@ -103,7 +103,6 @@ Output:
 
 The output data can be grouped by `buildUUID` to calculate a total sum for the individual builds
 
-
 ## Minimum Requirements
 - Java 11
 - Gradle 6.1
