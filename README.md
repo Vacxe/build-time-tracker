@@ -2,13 +2,8 @@
 
 Gradle plugin that prints the time taken by the tasks in a build.
 
-Console output example:
-```
-Build finished: 0.643s
-
-:first | 0.229s | 35.61%
-:second | 0.412s | 64.07%
-```
+See [Gradle Plugin Portal](https://plugins.gradle.org/plugin/io.github.vacxe.build-time-tracker) for usage
+instructions
 
 You can customize the plugin as follows:
 
@@ -114,4 +109,4 @@ The output data can be grouped by `buildUUID` to calculate a total sum for the i
 - Gradle 6.1
 
 ## License
-Copyright 2022 Abhijit Sarkar - Released under [Apache License v2.0](LICENSE).
+Released under [Apache License v2.0](LICENSE)
