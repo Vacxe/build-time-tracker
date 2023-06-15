@@ -11,11 +11,24 @@ class ConsoleReporter(private val configuration: ConsoleConfiguration) : Reporte
 
         val filteredEventReports = report.eventReports
             .filter { it.duration > configuration.minDuration }
+            .let {
+                if (configuration.sorted) it.sortedBy { element -> element.duration }.reversed() else it
+            }
+            .take(configuration.take)
+
         filteredEventReports.map {
-            StringBuilder(it.taskPath)
-                .append(" | ${it.duration.toSecondsWithMillis()}s")
-                .append(" | ${it.duration.percentOf(report.buildDuration)}%")
-        }.forEach(::println)
+                StringBuilder(it.taskPath)
+                    .append(" | ${it.duration.toSecondsWithMillis()}s")
+                    .append(" | ${it.duration.percentOf(report.buildDuration)}%")
+            }.forEach(::println)
+
+        val excludedEvents = report.eventReports - filteredEventReports.toSet()
+        if(excludedEvents.isNotEmpty()) {
+            println()
+            println("Some tasks been hidden by filtering configuration:")
+            val duration = Duration.ofMillis(excludedEvents.sumOf { it.duration.toMillis() })
+            println("Count: ${excludedEvents.size}, Total duration: ${duration.toSecondsWithMillis()} (${duration.percentOf(report.buildDuration)}%)")
+        }
     }
 
     private fun Duration.percentOf(baseDuration: Duration) =

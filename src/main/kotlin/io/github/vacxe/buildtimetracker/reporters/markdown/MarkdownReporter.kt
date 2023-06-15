@@ -12,6 +12,10 @@ class MarkdownReporter(private val configuration: MarkdownConfiguration) : Repor
 
         val filteredEventReports = report.eventReports
             .filter { it.duration > configuration.minDuration }
+            .let {
+                if (configuration.sorted) it.sortedBy { element -> element.duration }.reversed() else it
+            }
+            .take(configuration.take)
 
         if(configuration.withTableLabels) {
             builder.appendLine("|Task|Duration|Proportion|")
@@ -20,6 +24,15 @@ class MarkdownReporter(private val configuration: MarkdownConfiguration) : Repor
         filteredEventReports.map {
             "|${it.taskPath}|${it.duration.toSecondsWithMillis()}s|${it.duration.percentOf(report.buildDuration)}%|"
         }.forEach(builder::appendLine)
+
+
+        val excludedEvents = report.eventReports - filteredEventReports.toSet()
+        if(excludedEvents.isNotEmpty()) {
+            builder.appendLine()
+            builder.appendLine("Some tasks been hidden by filtering configuration:")
+            val duration = Duration.ofMillis(excludedEvents.sumOf { it.duration.toMillis() })
+            builder.appendLine("Count: ${excludedEvents.size}, Total duration: ${duration.toSecondsWithMillis()} (${duration.percentOf(report.buildDuration)}%)")
+        }
 
         File(configuration.reportFile).run {
             if (exists()) delete()

@@ -89,6 +89,94 @@ class MarkdownReporterTest : BuildTimeTrackerGradleTest() {
         assertThat(lines[4].contains(":second"))
     }
     @Test
+    fun testMultiTasksSortedKotlin() {
+        val markdownReportFile = this.createTempFile("report.md")
+        val buildFile = newBuildFile(testProjectDir, "build.gradle.kts")
+        buildFile.append(
+            """
+                import ${MarkdownConfiguration::class.qualifiedName}
+                
+                tasks.register("$firstTask") {
+                    doLast {
+                        Thread.sleep(200)
+                        println("Here $firstTask")
+                    }
+                }    
+                
+                tasks.register("$secondTask") {
+                    doLast {
+                        Thread.sleep(400)
+                        println("Here $secondTask")
+                    }
+                }
+                    
+                ${Constants.PLUGIN_EXTENSION_NAME} {
+                    markdownConfiguration.set(MarkdownConfiguration("$markdownReportFile", sorted = true))
+                }
+                """
+        )
+
+        val result = run(buildFile.parent, firstTask, secondTask)
+
+        assertThat(result.task(firstTask)?.outcome == SUCCESS)
+        assertThat(result.task(secondTask)?.outcome == SUCCESS)
+
+        assertThat(File(markdownReportFile).exists()).isTrue
+        val lines = File(markdownReportFile).readLines()
+
+        assertThat(lines[0].contains("#### Build finished"))
+        assertThat(lines[1].contains("|Task|Duration|Proportion|"))
+        assertThat(lines[2].contains("|---|---|---|"))
+        assertThat(lines[3].contains(":second"))
+        assertThat(lines[4].contains(":first"))
+    }
+
+    @Test
+    fun testMultiTasksTakeFirstKotlin() {
+        val markdownReportFile = this.createTempFile("report.md")
+        val buildFile = newBuildFile(testProjectDir, "build.gradle.kts")
+        buildFile.append(
+            """
+                import ${MarkdownConfiguration::class.qualifiedName}
+                
+                tasks.register("$firstTask") {
+                    doLast {
+                        Thread.sleep(200)
+                        println("Here $firstTask")
+                    }
+                }    
+                
+                tasks.register("$secondTask") {
+                    doLast {
+                        Thread.sleep(400)
+                        println("Here $secondTask")
+                    }
+                }
+                    
+                ${Constants.PLUGIN_EXTENSION_NAME} {
+                    markdownConfiguration.set(MarkdownConfiguration("$markdownReportFile", take = 1))
+                }
+                """
+        )
+
+        val result = run(buildFile.parent, firstTask, secondTask)
+
+        assertThat(result.task(firstTask)?.outcome == SUCCESS)
+        assertThat(result.task(secondTask)?.outcome == SUCCESS)
+
+        assertThat(File(markdownReportFile).exists()).isTrue
+        val lines = File(markdownReportFile).readLines()
+
+        assertThat(lines[0].contains("#### Build finished"))
+        assertThat(lines[1].contains("|Task|Duration|Proportion|"))
+        assertThat(lines[2].contains("|---|---|---|"))
+        assertThat(lines[3].contains(":first"))
+        assertThat(lines[5]).contains("Some tasks been hidden by filtering configuration")
+        assertThat(lines[6]).contains("Count: 1, Total duration:")
+        assertThat(lines.size).isEqualTo(7)
+    }
+
+    @Test
     fun testEmptyAfterFiltrationKotlin() {
         val markdownReportFile = this.createTempFile("report.md")
         val buildFile = newBuildFile(testProjectDir, "build.gradle.kts")
@@ -127,6 +215,8 @@ class MarkdownReporterTest : BuildTimeTrackerGradleTest() {
         assertThat(lines[0].contains("#### Build finished"))
         assertThat(lines[1].contains("|Task|Duration|Proportion|"))
         assertThat(lines[2].contains("|---|---|---|"))
-        assertThat(lines.size).isEqualTo(3)
+        assertThat(lines[4]).contains("Some tasks been hidden by filtering configuration")
+        assertThat(lines[5]).contains("Count: 2, Total duration:")
+        assertThat(lines.size).isEqualTo(6)
     }
 }

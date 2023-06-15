@@ -12,8 +12,10 @@ You can customize the plugin as follows:
 
 Parameters:
 * `minDuration: Duration` - `optional` minimum task duration for report, default `0` *(all tasks included)*
+* `sorted: Boolean` - `optional` sort by duration, default `false`
+* `take: Int` - `optional` take first N task from build, default `Int.MAX_VALUE` *(take all)*
 
-`build.gradle.kts`: 
+* `build.gradle.kts`: 
 ```
 buildTimeTracker {
     consoleConfiguration.set(ConsoleConfiguration(Duration.ofMillis(200))
@@ -55,6 +57,8 @@ Parameters:
 * `reportFile: String` - `required` path for report file
 * `minDuration: Duration` - `optional` minimum task duration for report, default `0` *(all tasks included)*
 * `withTableLabels: Boolean` - `optional` add table labels, default `true`
+* `sorted: Boolean` - `optional` sort by duration, default `false`
+* `take: Int` - `optional` take first N task from build, default `Int.MAX_VALUE` *(take all)*
 
 `build.gradle.kts`:
 ```
