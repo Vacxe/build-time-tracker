@@ -87,12 +87,13 @@ Parameters:
 * `token: String` - `required` 
 * `org: String` - `required` 
 * `bucket: String` - `required`
+* `measurementName: String` - `optional` name for metric, default `buildTime`
 * `minDuration: Duration` - `optional` minimum task duration for report, default `0` *(all tasks included)*
 
 `build.gradle.kts`:
 ```
 buildTimeTracker {
-    influxDBConfiguration.set(InfluxDBConfiguration("http://192.168.1.100:8086/", "myToken", "myBucker", "myOrg"))              
+    influxDBConfiguration.set(InfluxDBConfiguration("http://192.168.1.100:8086/", "myToken", "myBucker", "myOrg", "SampleAppBuildTime"))              
 }
 ```
 Output:

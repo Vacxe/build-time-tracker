@@ -8,5 +8,6 @@ data class InfluxDBConfiguration(
     val token: String,
     val org: String,
     val bucket: String,
+    val measurementName: String = "buildTime",
     val minDuration: Duration = Duration.ZERO
 ) : Serializable

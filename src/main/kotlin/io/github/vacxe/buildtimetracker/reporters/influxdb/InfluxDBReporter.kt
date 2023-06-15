@@ -27,7 +27,7 @@ class InfluxDBReporter(private val configuration: InfluxDBConfiguration): Report
         val writeApi = client.getWriteKotlinApi()
 
         val points = filteredEventReports.map {
-            Point.measurement("buildStat")
+            Point.measurement(configuration.measurementName)
                 .addTag("taskPath", it.taskPath)
                 .addTag("userName", userName)
                 .addTag("osName", osName)
