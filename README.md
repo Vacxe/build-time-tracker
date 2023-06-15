@@ -97,7 +97,7 @@ Parameters:
 `build.gradle.kts`:
 ```
 buildTimeTracker {
-    influxDBConfiguration.set(InfluxDBConfiguration("http://192.168.1.100:8086/", "myToken", "myBucker", "myOrg", "SampleAppBuildTime"))              
+    influxDBConfiguration.set(InfluxDBConfiguration("http://192.168.1.100:8086/", "myToken", "myOrg", "MyBucket", "SampleAppBuildTime"))              
 }
 ```
 Output:
