@@ -15,7 +15,7 @@ Parameters:
 * `sorted: Boolean` - `optional` sort by duration, default `false`
 * `take: Int` - `optional` take first N task from build, default `Int.MAX_VALUE` *(take all)*
 
-* `build.gradle.kts`: 
+`build.gradle.kts`: 
 ```
 buildTimeTracker {
     consoleConfiguration.set(ConsoleConfiguration(Duration.ofMillis(200))
