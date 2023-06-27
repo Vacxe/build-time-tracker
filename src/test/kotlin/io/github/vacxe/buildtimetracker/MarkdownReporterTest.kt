@@ -171,9 +171,8 @@ class MarkdownReporterTest : BuildTimeTrackerGradleTest() {
         assertThat(lines[1].contains("|Task|Duration|Proportion|"))
         assertThat(lines[2].contains("|---|---|---|"))
         assertThat(lines[3].contains(":first"))
-        assertThat(lines[5]).contains("Some tasks been hidden by filtering configuration")
-        assertThat(lines[6]).contains("Count: 1, Total duration:")
-        assertThat(lines.size).isEqualTo(7)
+        assertThat(lines[5]).contains("1 tasks been hidden by filtering configuration")
+        assertThat(lines.size).isEqualTo(6)
     }
 
     @Test
@@ -215,8 +214,7 @@ class MarkdownReporterTest : BuildTimeTrackerGradleTest() {
         assertThat(lines[0].contains("#### Build finished"))
         assertThat(lines[1].contains("|Task|Duration|Proportion|"))
         assertThat(lines[2].contains("|---|---|---|"))
-        assertThat(lines[4]).contains("Some tasks been hidden by filtering configuration")
-        assertThat(lines[5]).contains("Count: 2, Total duration:")
-        assertThat(lines.size).isEqualTo(6)
+        assertThat(lines[4]).contains("2 tasks been hidden by filtering configuration")
+        assertThat(lines.size).isEqualTo(5)
     }
 }

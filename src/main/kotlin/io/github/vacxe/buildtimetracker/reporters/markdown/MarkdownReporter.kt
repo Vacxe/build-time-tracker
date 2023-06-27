@@ -29,9 +29,7 @@ class MarkdownReporter(private val configuration: MarkdownConfiguration) : Repor
         val excludedEvents = report.eventReports - filteredEventReports.toSet()
         if(excludedEvents.isNotEmpty()) {
             builder.appendLine()
-            builder.appendLine("Some tasks been hidden by filtering configuration:")
-            val duration = Duration.ofMillis(excludedEvents.sumOf { it.duration.toMillis() })
-            builder.appendLine("Count: ${excludedEvents.size}, Total duration: ${duration.toSecondsWithMillis()} (${duration.percentOf(report.buildDuration)}%)")
+            builder.appendLine("${excludedEvents.size} tasks been hidden by filtering configuration")
         }
 
         File(configuration.reportFile).run {

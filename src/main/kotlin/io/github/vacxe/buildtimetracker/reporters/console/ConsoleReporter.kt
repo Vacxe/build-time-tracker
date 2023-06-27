@@ -25,9 +25,7 @@ class ConsoleReporter(private val configuration: ConsoleConfiguration) : Reporte
         val excludedEvents = report.eventReports - filteredEventReports.toSet()
         if(excludedEvents.isNotEmpty()) {
             println()
-            println("Some tasks been hidden by filtering configuration:")
-            val duration = Duration.ofMillis(excludedEvents.sumOf { it.duration.toMillis() })
-            println("Count: ${excludedEvents.size}, Total duration: ${duration.toSecondsWithMillis()} (${duration.percentOf(report.buildDuration)}%)")
+            println("${excludedEvents.size} tasks been hidden by filtering configuration")
         }
     }
 

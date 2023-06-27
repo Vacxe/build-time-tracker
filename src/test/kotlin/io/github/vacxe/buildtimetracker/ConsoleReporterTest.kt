@@ -159,9 +159,8 @@ class ConsoleReporterTest : BuildTimeTrackerGradleTest() {
             assertThat(this[1]).isEqualTo("Here second")
             assertThat(this[2]).contains("Build finished: ")
             assertThat(this[4]).contains(":$firstTask", "s", "%")
-            assertThat(this[6]).contains("Some tasks been hidden by filtering configuration")
-            assertThat(this[7]).contains("Count: 1, Total duration:")
-            assertThat(this.size).isEqualTo(9)
+            assertThat(this[6]).contains("1 tasks been hidden by filtering configuration")
+            assertThat(this.size).isEqualTo(8)
         }
     }
 
@@ -199,9 +198,8 @@ class ConsoleReporterTest : BuildTimeTrackerGradleTest() {
             assertThat(this[0]).isEqualTo("Here first")
             assertThat(this[1]).isEqualTo("Here second")
             assertThat(this[2]).contains("Build finished: ")
-            assertThat(this[5]).contains("Some tasks been hidden by filtering configuration")
-            assertThat(this[6]).contains("Count: 2, Total duration:")
-            assertThat(this.size).isEqualTo(8)
+            assertThat(this[5]).contains("2 tasks been hidden by filtering configuration")
+            assertThat(this.size).isEqualTo(7)
         }
     }
 }
